@@ -22,6 +22,7 @@ purchaseAmount=0.50 - The amount of money you want to transfer on  the gift card
 purchaseQuantity=2 - how many purchases you want to make 
 ```
 4. Run the test
+5. After the email is inputted automatically you need to input the password, click on the "Keep me logged in" checkbox, and submit button manually to avoid CAPTCHA. 
 
 ## Contributing
 If you wish to contribute to this project, please fork the repository, make your changes, and submit a pull request.
