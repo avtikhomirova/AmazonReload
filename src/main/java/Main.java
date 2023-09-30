@@ -5,8 +5,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.text.DecimalFormat;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,22 +16,36 @@ public class Main {
         ConfigLoader configLoader = new ConfigLoader();
         String email = configLoader.getProperty("email");
         String cardNumber = configLoader.getProperty("cardNumber");
-        String purchaseAmount = configLoader.getProperty("purchaseAmount");
+
+        Random rand = new Random();
+        float min = 0.50f;
+        float max = 0.70f;
+
+
         int purchaseQuantity = configLoader.getIntProperty("purchaseQuantity");
 
         // Launch driver
+        System.setProperty("webdriver.chrome.driver", "/Users/aleksandrapopova/Documents/WebDriver/chromedriver");
         WebDriver driver = new ChromeDriver();
-        if (driver instanceof JavascriptExecutor) {
-            ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
-        }
+//        if (driver instanceof JavascriptExecutor) {
+//            ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+//        }
 
         for (int i = 1; i <= purchaseQuantity; i++) {
+            //Get random purchase amount
+            float randomFloat = min + rand.nextFloat() * (max - min);
+            DecimalFormat df = new DecimalFormat("0.00");
+            String purchaseAmount = df.format(randomFloat);
+
             // Open Amazon Reload
             driver.get("https://www.amazon.com/gp/gc/create");
-            driver.navigate().refresh();
+            //driver.navigate().refresh();
 
-            // Wait for page loading
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            // Set implicit wait
+            //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+            //Set explicit wait
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
             /* Set focus on the input with purchase amount.
             Insert the purchase amount.
@@ -50,12 +66,10 @@ public class Main {
 
                 /* Wait for password insert and "Keep me signed" check box activation.
                    To avoid CAPTCHA, you need to enter the password and click sign up button manually.*/
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
                 wait.until(ExpectedConditions.elementToBeSelected(By.cssSelector("input[name=rememberMe]")));
             }
 
             // Change the pay type
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             CheckoutPage checkoutPage = new CheckoutPage(driver);
             checkoutPage.changeCardForPayment(cardNumber);
 
@@ -68,8 +82,20 @@ public class Main {
             //Click Place your order and pay button
             checkoutPage.paymentFinish();
 
+//            try {
+//                // Wait for an element on the page to become visible or clickable
+//                WebDriverWait wait = new WebDriverWait(driver, 10);
+//                WebElement cvvInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("addCreditCardVerificationNumber")));
+//                System.out.println("You caught a cvc page");
+//                cvvInput.sendKeys();
+//            } finally {
+//                OrderResultPage orderResultPage = new OrderResultPage(driver);
+//                orderResultPage.checkOrderStatus();
+//            }
+
             //Check if the order placement complete successfully
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+            System.out.println(driver.getCurrentUrl());
+            wait.until(ExpectedConditions.urlContains("https://www.amazon.com/gp/buy/"));
             OrderResultPage orderResultPage = new OrderResultPage(driver);
             orderResultPage.checkOrderStatus();
 

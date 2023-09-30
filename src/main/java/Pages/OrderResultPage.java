@@ -17,8 +17,8 @@ public class OrderResultPage {
     private WebElement orderStatus;
 
     public void checkOrderStatus(){
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOf(orderStatus));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(orderStatus));
         String orderStatusText = orderStatus.getText();
         if (orderStatusText.equals("Order placed, thanks!")){
             System.out.println("Order placed successfully");
