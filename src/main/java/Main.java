@@ -3,6 +3,7 @@ import Pages.CheckoutPage;
 import Pages.OrderResultPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.text.DecimalFormat;
@@ -16,6 +17,7 @@ public class Main {
         ConfigLoader configLoader = new ConfigLoader();
         String email = configLoader.getProperty("email");
         String cardNumber = configLoader.getProperty("cardNumber");
+        String password = configLoader.getProperty("password");
 
         Random rand = new Random();
         float min = 0.50f;
@@ -24,9 +26,14 @@ public class Main {
 
         int purchaseQuantity = configLoader.getIntProperty("purchaseQuantity");
 
+        //Set user-agent
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments(
+                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36");
+
         // Launch driver
         System.setProperty("webdriver.chrome.driver", "/Users/aleksandrapopova/chromedriver/mac_arm-118.0.5993.70/chromedriver-mac-arm64/chromedriver");
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
 //        if (driver instanceof JavascriptExecutor) {
 //            ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
 //        }
@@ -64,9 +71,24 @@ public class Main {
                 WebElement continueButton = driver.findElement(By.id("continue"));
                 continueButton.click();
 
+                //Waiting for the password page
+                wait.until(ExpectedConditions.urlContains("signin"));
+
+                //Insert the password
+                WebElement passwordInput = driver.findElement(By.xpath("//input[@id=\"ap_password\"]"));
+                passwordInput.sendKeys(password);
+
+                //Click on checkbox "Keep me signed in"
+                WebElement rememberMeCheckbox = driver.findElement(By.name("rememberMe"));
+                rememberMeCheckbox.click();
+
                 /* Wait for password insert and "Keep me signed" check box activation.
                    To avoid CAPTCHA, you need to enter the password and click sign up button manually.*/
                 wait.until(ExpectedConditions.elementToBeSelected(By.cssSelector("input[name=rememberMe]")));
+
+                //Button "Sign in" button
+                WebElement signInButton = driver.findElement(By.id("signInSubmit"));
+                signInButton.click();
             }
 
             // Change the pay type
