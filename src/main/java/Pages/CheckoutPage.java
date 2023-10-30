@@ -1,7 +1,6 @@
 package Pages;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,7 +24,7 @@ public class CheckoutPage {
     @FindBy(id = "orderSummaryPrimaryActionBtn")
     private WebElement useThisPaymentMethodBtn;
 
-    @FindBy(css = "span[data-field=tail]")
+    @FindBy(xpath = "//h2[@id=\"payment-option-text-default\"]/span")
     private WebElement cardEndingNumber;
 
     @FindBy(className = "grand-total-price")
@@ -66,9 +65,9 @@ public class CheckoutPage {
 
     public void cardNumberCheck(String cardNumberToFind) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.textToBe(By.cssSelector("span[data-field=tail]"), cardNumberToFind));
+        wait.until(ExpectedConditions.textToBePresentInElement(cardEndingNumber, cardNumberToFind));
 
-        if (cardEndingNumber.getText().equals(cardNumberToFind)) {
+        if (cardEndingNumber.getText().contains(cardNumberToFind)) {
             System.out.println("Chosen card number on the pay page is correct");
         } else {
             System.out.println("Number of the card on the page doesn't equals to chosen card");
@@ -77,7 +76,7 @@ public class CheckoutPage {
     }
 
     public void purchaseAmountCheck(String amount) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.textToBe(By.className("grand-total-price"), "$" + amount));
 
         String priceText = priceElement.getText();
@@ -105,7 +104,7 @@ public class CheckoutPage {
 //}
 //
     public void paymentFinish() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.elementToBeClickable(placeYourOrderAndPayBtn));
 //        for (int i=1; i<=2;i++) {
             if (placeYourOrderAndPayBtn.isDisplayed()) {

@@ -25,7 +25,7 @@ public class Main {
         int purchaseQuantity = configLoader.getIntProperty("purchaseQuantity");
 
         // Launch driver
-        System.setProperty("webdriver.chrome.driver", "/Users/aleksandrapopova/Documents/WebDriver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/aleksandrapopova/chromedriver/mac_arm-118.0.5993.70/chromedriver-mac-arm64/chromedriver");
         WebDriver driver = new ChromeDriver();
 //        if (driver instanceof JavascriptExecutor) {
 //            ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
