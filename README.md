@@ -9,7 +9,7 @@ The main purpose of the program is to help test the Amazon Gift Card reloading f
 2. Maven 4.0 or later
 3. Git
 4. Intellij Idea
-5. Chrome WebDriver compatible with the installed Chrome version
+5. Chrome WebDriver compatible with the installed Chrome version. Better use chrome for test.
 6. Amazon account with saved payment methods
 
 ## Setup
@@ -17,12 +17,11 @@ The main purpose of the program is to help test the Amazon Gift Card reloading f
 2. In the configuration file change parameters, as you need
 ```
 email=email@gmail.com - It's the Amazon login email
+password=password - It's the password for the Amazon account
 cardNumber=6666 - Last 4 digits of the card, which you want to use as a payment variant
-purchaseAmount=0.50 - The amount of money you want to transfer on  the gift card
-purchaseQuantity=2 - how many purchases you want to make 
+purchaseQuantity=2 - How many purchases you want to make 
 ```
 4. Run the test
-5. After the email is inputted automatically you need to input the password, click on the "Keep me logged in" checkbox, and submit button manually to avoid CAPTCHA. 
 
 ## Contributing
 If you wish to contribute to this project, please fork the repository, make your changes, and submit a pull request.
