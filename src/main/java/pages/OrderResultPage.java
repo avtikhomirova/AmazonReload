@@ -1,24 +1,27 @@
-package Pages;
+package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 
-public class OrderResultPage {
+public class OrderResultPage extends Page{
     private WebDriver driver;
-
+    private final String ORDER_RESULT_PAGE_URL = "https://www.amazon.com/gp/buy/";
+    public OrderResultPage(WebDriver driver){
+        super(driver);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
     @FindBy(className = "a-alert-heading")
     private WebElement orderStatus;
+    By orderStatusBy = By.className("a-alert-heading");
 
     public void checkOrderStatus(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(orderStatus));
+        waitForExactUrl(ORDER_RESULT_PAGE_URL);
+        waitForElementToAppear(orderStatusBy);
         String orderStatusText = orderStatus.getText();
         if (orderStatusText.equals("Order placed, thanks!")){
             System.out.println("Order placed successfully");
@@ -28,10 +31,7 @@ public class OrderResultPage {
         }
     }
 
-    public OrderResultPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
+
 
 
 }
