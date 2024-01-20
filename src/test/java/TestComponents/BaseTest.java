@@ -1,5 +1,6 @@
 package TestComponents;
 
+import config.ConfigLoader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -7,14 +8,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import pages.AmazonReloadPage;
-import resources.ConfigLoader;
 
 public class BaseTest {
     public static WebDriver driver;
 
     public static WebDriver getDriver() {
-        ConfigLoader configLoader = new ConfigLoader();
-        String browserName = configLoader.getProperty("browser");
+        String browserName = ConfigLoader.getConfig().getProperty("browser");
 
         //Set user-agent
         if (browserName.equalsIgnoreCase("firefox")) {

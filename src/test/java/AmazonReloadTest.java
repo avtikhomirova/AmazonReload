@@ -1,17 +1,16 @@
 import TestComponents.BaseTest;
+import config.ConfigLoader;
 import generators.RandomData;
 import org.testng.annotations.Test;
 import pages.*;
-import resources.ConfigLoader;
 
 public class AmazonReloadTest extends BaseTest {
     @Test
     public void giftCardPurchase() {
-        ConfigLoader configLoader = new ConfigLoader();
-        String email = configLoader.getProperty("email");
-        String cardNumber = configLoader.getProperty("cardNumber");
-        String password = configLoader.getProperty("password");
-        int purchaseQuantity = configLoader.getIntProperty("purchaseQuantity");
+        String email = ConfigLoader.getConfig().getProperty("email");
+        String cardNumber = ConfigLoader.getConfig().getProperty("cardNumber");
+        String password = ConfigLoader.getConfig().getProperty("password");
+        int purchaseQuantity = Integer.parseInt(ConfigLoader.getConfig().getProperty("purchaseQuantity"));
         driver = getDriver();
 
 
