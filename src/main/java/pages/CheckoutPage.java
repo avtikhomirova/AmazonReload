@@ -23,6 +23,9 @@ public class CheckoutPage extends Page {
     @FindBy(id = "orderSummaryPrimaryActionBtn")
     private WebElement useThisPaymentMethodBtn;
 
+    @FindBy(id="payment-option-text-default")
+    private WebElement payWithString;
+
     @FindBy(xpath = "//h2[@id='payment-option-text-default']/span")
     private WebElement cardEndingNumber;
 
@@ -40,7 +43,9 @@ public class CheckoutPage extends Page {
     }
 
     public void changeCardForPayment(String cardNumberToFind) {
+        waitForElementToAppear(By.id("payChangeButtonId"));
         clickElement(payChangeButton);
+        waitForElementToAppear(By.xpath("//span[contains(@class, 'a-size-medium') and contains(@class, 'a-text-bold') and text()='Your credit and debit cards']"));
         waitForAllElementsPresence(By.className("pmts-credit-card-row"));
 
         for (WebElement cardParentElement : cardParentElements) {
@@ -53,11 +58,13 @@ public class CheckoutPage extends Page {
                 break;
             }
         }
-        waitForElementToBeClickable(By.id("submitOrderButtonId"));
+        waitForElementToAppear(By.id("payment-option-text-default"));
+        waitForElementToBeClickable(By.id("bottomSubmitOrderButtonId"));
     }
 
     private void selectCard(WebElement cardParentElement) {
         WebElement radioButton = cardParentElement.findElement(By.xpath(".//input[@type='radio']"));
+        waitForElementPresence(By.xpath(".//input[@type='radio']"));
         clickElement(radioButton);
     }
 
@@ -97,5 +104,15 @@ public class CheckoutPage extends Page {
     private void clickElement(WebElement element) {
         element.click();
     }
+    //try {
+//                //Wait for an element on the page to become visible or clickable
+//                WebDriverWait wait = new WebDriverWait(driver, 10);
+//                WebElement cvvInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("addCreditCardVerificationNumber")));
+//                System.out.println("You caught a cvc page");
+//                cvvInput.sendKeys();
+//            } finally {
+//                OrderResultPage orderResultPage = new OrderResultPage(driver);
+//                orderResultPage.checkOrderStatus();
+//            }
 }
 

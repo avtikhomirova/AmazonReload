@@ -17,11 +17,12 @@ public class OrderResultPage extends Page{
     }
     @FindBy(className = "a-alert-heading")
     private WebElement orderStatus;
-    By orderStatusBy = By.className("a-alert-heading");
+    //By orderStatusBy = By.className("a-alert-heading");
 
     public void checkOrderStatus(){
         waitForExactUrl(ORDER_RESULT_PAGE_URL);
-        waitForElementToAppear(orderStatusBy);
+        waitForElementPresence(By.id("widget-purchaseConfirmationStatus"));
+        waitForElementPresence(By.className("a-alert-heading"));
         String orderStatusText = orderStatus.getText();
         if (orderStatusText.equals("Order placed, thanks!")){
             System.out.println("Order placed successfully");

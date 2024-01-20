@@ -9,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AmazonReloadPage extends Page {
     private WebDriver driver;
+    private final String AMAZON_RELOAD_PAGE_URL = "https://www.amazon.com/gp/gc/create";
     public AmazonReloadPage(WebDriver driver){
         super(driver);
         this.driver = driver;
@@ -20,6 +21,11 @@ public class AmazonReloadPage extends Page {
     By oneTimeReloadAmountBy = By.name("oneTimeReloadAmount");
     @FindBy(xpath = "(//input[@aria-labelledby='gcui-asv-reload-buynow-button-announce'])[1]")
     private WebElement buyNowBtn;
+
+    public WebDriver openAmazonReloadPage(){
+        driver.get(AMAZON_RELOAD_PAGE_URL);
+        return driver;
+    }
 
     public void oneTimeReloadPurchase(String amount){
         oneTimeReloadAmount.click();

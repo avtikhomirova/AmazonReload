@@ -1,3 +1,5 @@
+package resources;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -9,7 +11,7 @@ public class ConfigLoader {
         FileInputStream inputStream;
         properties = new Properties();
         try {
-            inputStream = new FileInputStream("src/main/java/configuration.properties"); // Put the path of your file here
+            inputStream = new FileInputStream("src/main/java/resources/configuration.properties"); // Put the path of your file here
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
