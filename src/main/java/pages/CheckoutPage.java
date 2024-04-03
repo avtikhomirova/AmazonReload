@@ -23,7 +23,7 @@ public class CheckoutPage extends Page {
     @FindBy(id = "orderSummaryPrimaryActionBtn")
     private WebElement useThisPaymentMethodBtn;
 
-    @FindBy(id="payment-option-text-default")
+    @FindBy(id = "payment-option-text-default")
     private WebElement payWithString;
 
     @FindBy(xpath = "//h2[@id='payment-option-text-default']/span")
@@ -35,6 +35,10 @@ public class CheckoutPage extends Page {
     @FindBy(css = "#submitOrderButtonId")
     private WebElement placeYourOrderAndPayBtn;
 
+    @FindBy(className = "place-order-button-text")
+    private WebElement placeYourOrderAndPayBtnText;
+
+
     // Constructor
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -42,10 +46,11 @@ public class CheckoutPage extends Page {
         PageFactory.initElements(driver, this);
     }
 
-    public void changeCardForPayment(String cardNumberToFind) {
-        waitForElementToAppear(By.id("payChangeButtonId"));
+    public void changeCardForPayment(String cardNumberToFind) throws InterruptedException {
+        Thread.sleep(5000);
+        waitForElementPresence(By.id("payChangeButtonId"));
         clickElement(payChangeButton);
-        waitForElementToAppear(By.xpath("//span[contains(@class, 'a-size-medium') and contains(@class, 'a-text-bold') and text()='Your credit and debit cards']"));
+        waitForElementPresence(By.xpath("//span[contains(@class, 'a-size-medium') and contains(@class, 'a-text-bold') and text()='Your credit and debit cards']"));
         waitForAllElementsPresence(By.className("pmts-credit-card-row"));
 
         for (WebElement cardParentElement : cardParentElements) {
@@ -92,7 +97,9 @@ public class CheckoutPage extends Page {
         }
     }
 
-    public void paymentFinish() {
+    public void paymentFinish() throws InterruptedException {
+        Thread.sleep(5000);
+        waitTextToBe(placeYourOrderAndPayBtnText, "Place your order");
         waitForElementToBeClickable(By.cssSelector("#submitOrderButtonId"));
         if (placeYourOrderAndPayBtn.isDisplayed()) {
             clickElement(placeYourOrderAndPayBtn);

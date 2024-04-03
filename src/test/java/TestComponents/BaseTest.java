@@ -1,6 +1,7 @@
 package TestComponents;
 
 import config.ConfigLoader;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,7 +25,7 @@ public class BaseTest {
             driver = new FirefoxDriver(options);
         } else if (browserName.equalsIgnoreCase("chrome")) {
             ChromeOptions options = new ChromeOptions();
-            System.setProperty("webdriver.chrome.driver", "/Users/aleksandrapopova/chromedriver/mac_arm-118.0.5993.70/chromedriver-mac-arm64/chromedriver");
+            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         }
         return driver;
@@ -37,7 +38,7 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(){
-        driver.close();
+        driver.quit();
     }
 
 

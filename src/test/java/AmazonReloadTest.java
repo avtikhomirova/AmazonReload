@@ -6,7 +6,7 @@ import pages.*;
 
 public class AmazonReloadTest extends BaseTest {
     @Test
-    public void giftCardPurchase() {
+    public void giftCardPurchase() throws InterruptedException {
         String email = ConfigLoader.getConfig().getProperty("email");
         String cardNumber = ConfigLoader.getConfig().getProperty("cardNumber");
         String password = ConfigLoader.getConfig().getProperty("password");
